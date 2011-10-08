@@ -1,0 +1,18 @@
+Advanced Java brainfuck compiler.
+
+Features:
+ * Generates error and warning messages
+ * Optimizes code
+ * Can produce executable code for multiple targets
+ * Support for custom building targets and AST visitors
+
+Command line options:
+ -o <name>                       Use given output name to generate files
+ -t, -target <name>              Generate file for given target
+ -vc, -visitorclass <classname>  Apply specified visitor to BF tree
+ -d <directory>                  Specify where to place generated files
+ -r, -range <number>             Specify max array size
+ -g                              Generate debugging info
+ -h, -help                       Show help message and exit
+ -v, -version                    Show program version and exit
+
