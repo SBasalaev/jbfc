@@ -1,4 +1,4 @@
-package home.bfc.tree;
+package org.sbasalaev.bfc.tree;
 
 /**
  * Position in the source code.

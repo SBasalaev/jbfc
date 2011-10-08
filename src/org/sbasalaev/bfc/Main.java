@@ -1,8 +1,8 @@
-package home.bfc;
+package org.sbasalaev.bfc;
 
-import home.bfc.tree.*;
-import home.bfc.opt.SizeCalculator;
-import home.bfc.opt.Simplifier;
+import org.sbasalaev.bfc.tree.*;
+import org.sbasalaev.bfc.opt.SizeCalculator;
+import org.sbasalaev.bfc.opt.Simplifier;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

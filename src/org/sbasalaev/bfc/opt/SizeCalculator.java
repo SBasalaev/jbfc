@@ -1,7 +1,7 @@
-package home.bfc.opt;
+package org.sbasalaev.bfc.opt;
 
-import home.bfc.Options;
-import home.bfc.tree.*;
+import org.sbasalaev.bfc.Options;
+import org.sbasalaev.bfc.tree.*;
 
 /**
  * Tries to estimate array size for program.

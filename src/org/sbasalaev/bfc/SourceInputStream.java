@@ -1,6 +1,6 @@
-package home.bfc;
+package org.sbasalaev.bfc;
 
-import home.bfc.tree.SourcePosition;
+import org.sbasalaev.bfc.tree.SourcePosition;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;

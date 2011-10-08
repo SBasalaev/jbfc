@@ -1,4 +1,4 @@
-package home.bfc.opt;
+package org.sbasalaev.bfc.opt;
 
 /**
  * Thrown when SizeCalculator fails to estimate size.

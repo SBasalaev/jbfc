@@ -1,6 +1,6 @@
-package home.bfc.tree;
+package org.sbasalaev.bfc.tree;
 
-import home.bfc.Options;
+import org.sbasalaev.bfc.Options;
 
 /**
  * A visitor that visit all standard BF nodes.

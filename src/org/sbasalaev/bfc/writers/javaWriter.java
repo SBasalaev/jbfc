@@ -1,7 +1,7 @@
-package home.bfc.writers;
+package org.sbasalaev.bfc.writers;
 
-import home.bfc.Options;
-import home.bfc.tree.*;
+import org.sbasalaev.bfc.Options;
+import org.sbasalaev.bfc.tree.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;

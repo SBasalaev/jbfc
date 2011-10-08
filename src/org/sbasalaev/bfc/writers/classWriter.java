@@ -1,9 +1,9 @@
-package home.bfc.writers;
+package org.sbasalaev.bfc.writers;
 
 import org.objectweb.asm.*;
 import static org.objectweb.asm.Opcodes.*;
-import home.bfc.Options;
-import home.bfc.tree.*;
+import org.sbasalaev.bfc.Options;
+import org.sbasalaev.bfc.tree.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

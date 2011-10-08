@@ -1,4 +1,4 @@
-package home.bfc.tree;
+package org.sbasalaev.bfc.tree;
 
 /**
  * A tree that gets character from the input.

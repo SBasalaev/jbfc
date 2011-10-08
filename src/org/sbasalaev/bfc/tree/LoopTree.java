@@ -1,4 +1,4 @@
-package home.bfc.tree;
+package org.sbasalaev.bfc.tree;
 
 import java.util.ArrayList;
 import java.util.List;

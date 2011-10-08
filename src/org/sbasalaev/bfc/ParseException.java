@@ -1,6 +1,6 @@
-package home.bfc;
+package org.sbasalaev.bfc;
 
-import home.bfc.tree.SourcePosition;
+import org.sbasalaev.bfc.tree.SourcePosition;
 
 /**
  * Thrown to indicate erroneous code.
