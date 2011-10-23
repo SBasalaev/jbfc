@@ -82,7 +82,7 @@ public class Main {
 					break;
 				case EXPECT_TARGET:
 					mode = NORMAL;
-					classNames.add("home.bfc.writers."+arg+"Writer");
+					classNames.add("org.sbasalaev.bfc.writers."+arg+"Writer");
 					break;
 				case EXPECT_BFCLASS:
 					mode = NORMAL;

@@ -1,4 +1,4 @@
-Advanced Java brainfuck compiler.
+Advanced brainfuck compiler written in Java.
 
 Features:
  * Generates error and warning messages
