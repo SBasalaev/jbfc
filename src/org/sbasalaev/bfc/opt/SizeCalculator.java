@@ -38,7 +38,7 @@ public class SizeCalculator implements TreeVisitor<Integer, SizeBounds> {
 
 	public Integer visitInc(IncTree tree, SizeBounds data) {
 		if (data.currentIndex < 0 || data.currentIndex >= options.getRange())
-			options.warn(tree.getSourcePosition(), "Changing value out of array bounds");
+			options.warn(tree.getSourcePosition(), "Warning: Changing value out of array bounds");
 		data.updateMax();
 		return null;
 	}
@@ -52,14 +52,14 @@ public class SizeCalculator implements TreeVisitor<Integer, SizeBounds> {
 
 	public Integer visitGetChar(GetCharTree tree, SizeBounds data) {
 		if (data.currentIndex < 0 || data.currentIndex >= options.getRange())
-			options.warn(tree.getSourcePosition(), "Writing value out of array bounds");
+			options.warn(tree.getSourcePosition(), "Warning: Writing value out of array bounds");
 		data.updateMax();
 		return null;
 	}
 
 	public Integer visitPutChar(PutCharTree tree, SizeBounds data) {
 		if (data.currentIndex < 0 || data.currentIndex >= options.getRange())
-			options.warn(tree.getSourcePosition(), "Reading value out of array bounds");
+			options.warn(tree.getSourcePosition(), "Warning: Reading value out of array bounds");
 		data.updateMax();
 		return null;
 	}

@@ -43,7 +43,11 @@ public class cWriter implements TreeVisitor<Void, Integer> {
 
 	public Void visitUnit(UnitTree tree) {
 		String name = options.getOutputName();
-		if (name == null) name = "main";
+		if (name == null) {
+			name = tree.getSource();
+			int dot = name.lastIndexOf('.');
+			if (dot > 0) name = name.substring(0, dot);
+		}
 		File file = new File(options.getOutputDir(), name+".c");
 		try {
 			output = new PrintStream(file);
@@ -51,7 +55,7 @@ public class cWriter implements TreeVisitor<Void, Integer> {
 			//cry like a baby
 		}
 		if (options.needDebugInfo()) {
-			output.println("/* Compiled from \""+tree.getSource()+"\" */");
+			output.println("/* Generated from \""+tree.getSource()+"\" */");
 		}
 		output.println();
 		output.println("#include <stdio.h>");
@@ -66,6 +70,9 @@ public class cWriter implements TreeVisitor<Void, Integer> {
 			t.accept(this, 1);
 		}
 		output.println("}");
+		output.flush();
+		output.close();
+		System.err.println("File "+name+".c written");
 		return null;
 	}
 

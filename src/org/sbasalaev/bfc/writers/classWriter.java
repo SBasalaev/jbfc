@@ -52,7 +52,11 @@ public class classWriter implements TreeVisitor<Void, Void> {
 	public Void visitUnit(UnitTree tree) {
 		ClassWriter clz = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
 		String name = options.getOutputName();
-		if (name == null) name = "Main";
+		if (name == null) {
+			name = tree.getSource();
+			int dot = name.lastIndexOf('.');
+			if (dot > 0) name = name.substring(0, dot);
+		}
 		clz.visit(JAVA_1_5, ACC_PUBLIC | ACC_FINAL, name, null, "java/lang/Object", null);
 		if (options.needDebugInfo()) clz.visitSource(tree.getSource(), null);
 		main = clz.visitMethod(
@@ -90,6 +94,7 @@ public class classWriter implements TreeVisitor<Void, Void> {
 			out.write(clz.toByteArray());
 			out.flush();
 			out.close();
+			System.err.println("File "+name+".class written");
 		} catch (IOException ioe) {
 			//cry like a baby
 		}

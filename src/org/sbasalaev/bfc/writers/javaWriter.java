@@ -43,7 +43,11 @@ public class javaWriter implements TreeVisitor<Void, Integer> {
 
 	public Void visitUnit(UnitTree tree) {
 		String name = options.getOutputName();
-		if (name == null) name = "Main";
+		if (name == null) {
+			name = tree.getSource();
+			int dot = name.lastIndexOf('.');
+			if (dot > 0) name = name.substring(0, dot);
+		}
 		File file = new File(options.getOutputDir(), name+".java");
 		try {
 			output = new PrintStream(file);
@@ -51,7 +55,7 @@ public class javaWriter implements TreeVisitor<Void, Integer> {
 			//cry like a baby
 		}
 		if (options.needDebugInfo()) {
-			output.println("/* Compiled from \""+tree.getSource()+"\" */");
+			output.println("/* Generated from \""+tree.getSource()+"\" */");
 		}
 		output.println();
 		output.println("import java.io.IOException;");
@@ -67,6 +71,9 @@ public class javaWriter implements TreeVisitor<Void, Integer> {
 		output.println("\t\tSystem.out.flush();");
 		output.println("\t}");
 		output.println("}");
+		output.flush();
+		output.close();
+		System.err.println("File "+name+".java written");
 		return null;
 	}
 
