@@ -44,7 +44,7 @@ public class Main {
 	static private final int EXPECT_RANGE = 5;
 
 	static private final String VERSION =
-			"BF compiler version 0.1";
+			"BF compiler version 0.2";
 
 	static private final String HELP =
 			"Usage: jbfc [-options] source\n" +
