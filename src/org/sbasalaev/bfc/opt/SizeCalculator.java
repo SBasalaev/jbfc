@@ -66,6 +66,8 @@ public class SizeCalculator implements TreeVisitor<Integer, SizeBounds> {
 
 	public Integer visitLoop(LoopTree tree, SizeBounds data) {
 		int curIndex = data.currentIndex;
+		if (curIndex < 0 || curIndex >= options.getRange())
+			options.warn(tree.getSourcePosition(), "Warning: Reading value out of array bounds");
 		for (Tree node : tree.getChildren()) {
 			node.accept(this, data);
 		}

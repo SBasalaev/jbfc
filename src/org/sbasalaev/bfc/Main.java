@@ -192,28 +192,31 @@ public class Main {
 		int ch = in.read();
 		List<Tree> children = tree.getChildren();
 		while (ch != -1) {
+			in.backup();
 			switch (ch) {
 				case '+':
 				case '-':
-					in.backup();
 					children.add(parseInc(in));
 					break;
 				case '<':
 				case '>':
-					in.backup();
 					children.add(parseMove(in));
 					break;
 				case ',':
 					children.add(new GetCharTree(in.position()));
+					in.read();
 					break;
 				case '.':
 					children.add(new PutCharTree(in.position()));
+					in.read();
 					break;
 				case '[':
 					children.add(parseLoop(in));
 					break;
 				case ']':
 					throw new ParseException(" ] without matching [", in.position());
+				default:
+					in.read();
 			}
 			ch = in.read();
 		}
@@ -221,32 +224,36 @@ public class Main {
 
 	private static LoopTree parseLoop(SourceInputStream in)
 			throws IOException, ParseException {
-		int ch = in.read();
 		LoopTree loop = new LoopTree(in.position());
 		List<Tree> children = loop.getChildren();
+		in.read(); // skip [
+		int ch = in.read();
 		while (ch != ']') {
+			in.backup();
 			switch (ch) {
 				case '+':
 				case '-':
-					in.backup();
 					children.add(parseInc(in));
 					break;
 				case '<':
 				case '>':
-					in.backup();
 					children.add(parseMove(in));
 					break;
 				case ',':
 					children.add(new GetCharTree(in.position()));
+					in.read();
 					break;
 				case '.':
 					children.add(new PutCharTree(in.position()));
+					in.read();
 					break;
 				case '[':
 					children.add(parseLoop(in));
 					break;
 				case -1:
 					throw new ParseException(" [ without matching ]", loop.getSourcePosition());
+				default:
+					in.read();
 			}
 			ch = in.read();
 		}
