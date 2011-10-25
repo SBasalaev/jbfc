@@ -65,6 +65,7 @@ public class javaWriter implements TreeVisitor<Void, Integer> {
 		output.println("\t\tfinal int ARRAY_SIZE = "+options.getRange()+";");
 		output.println("\t\tbyte[] array = new byte[ARRAY_SIZE];");
 		output.println("\t\tint position = 0;");
+		output.println("\t\tint ch;");
 		for (Tree t : tree.getChildren()) {
 			t.accept(this, 2);
 		}
@@ -116,7 +117,7 @@ public class javaWriter implements TreeVisitor<Void, Integer> {
 		indent(level);
 		output.println("ch = System.in.read();");
 		indent(level);
-		output.println("array[position] = ch >= 0 ? ch : 0;");
+		output.println("array[position] = ch >= 0 ? (byte)ch : 0;");
 		return null;
 	}
 

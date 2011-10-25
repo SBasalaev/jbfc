@@ -66,6 +66,7 @@ public class cWriter implements TreeVisitor<Void, Integer> {
 		output.println("int main(int argc, char* argv[]) {");
 		output.println("\tchar array[ARRAY_SIZE];");
 		output.println("\tint position = 0;");
+		output.println("\tchar ch;");
 		for (Tree t : tree.getChildren()) {
 			t.accept(this, 1);
 		}
