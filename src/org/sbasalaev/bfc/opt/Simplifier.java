@@ -77,6 +77,7 @@ public class Simplifier implements TreeVisitor<Void, Void> {
 			ListIterator<Tree> iter = children.listIterator();
 			while (iter.hasNext()) {
 				Tree t1 = iter.next();
+				//merge adjacent increments
 				if (t1 instanceof IncTree) {
 					final IncTree itree = (IncTree)t1;
 					if (itree.getIncrement() == 0) {
@@ -97,6 +98,7 @@ public class Simplifier implements TreeVisitor<Void, Void> {
 							iter.previous();
 						}
 					}
+				//merge adjacent moves
 				} else if (t1 instanceof MoveTree) {
 					final MoveTree mtree = (MoveTree)t1;
 					if (mtree.getOffset() == 0) {
@@ -117,8 +119,23 @@ public class Simplifier implements TreeVisitor<Void, Void> {
 							iter.previous();
 						}
 					}
-				} else {
+				//process inside loop
+				} else if (t1 instanceof LoopTree) {
 					t1.accept(this, null);
+					// if loop is [-] or [+] replace it with AssignTree(0)
+					List<Tree> nodes = ((LoopTree)t1).getChildren();
+					if (nodes.size() == 1) {
+						Tree child = nodes.get(0);
+						if (child instanceof IncTree && ((IncTree)child).getIncrement() %2 != 0) {
+							iter.set(new AssignTree(t1.getSourcePosition(), 0));
+							optimized = true;
+							continue;
+						} else if (child instanceof AssignTree && ((AssignTree)child).getValue() == 0) {
+							iter.set(new AssignTree(t1.getSourcePosition(), 0));
+							optimized = true;
+							continue;
+						}
+					}
 				}
 			}
 		} while (optimized);
