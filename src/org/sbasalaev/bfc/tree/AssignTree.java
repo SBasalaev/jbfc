@@ -18,22 +18,40 @@
 
 package org.sbasalaev.bfc.tree;
 
-import org.sbasalaev.bfc.Options;
-
 /**
- * A visitor that visit all standard BF nodes.
+ * A tree that assigns specific value at the current
+ * position of array. This kind of tree may appear
+ * as result of optimizations.
  *
- * @param <R> a type that visitor methods return
- * @param <D> a type of additional data passed to visitor methods
  * @author Sergey Basalaev
  */
-public interface TreeVisitor<R,D> {
-	R visitGetChar(GetCharTree tree, D data);
-	R visitPutChar(PutCharTree tree, D data);
-	R visitInc(IncTree tree, D data);
-	R visitMove(MoveTree tree, D data);
-	R visitLoop(LoopTree tree, D data);
-	R visitOther(Tree tree, D data);
-	R visitUnit(UnitTree tree);
-	void setOptions(Options options);
+public class AssignTree extends Tree {
+
+	private final int value;
+
+	/**
+	 * Creates new <code>AssignTree</code>.
+	 * @param pos        position in the source
+	 * @param increment  the value to assign
+	 */
+	public AssignTree(SourcePosition pos, int value) {
+		super(pos);
+		this.value = value;
+	}
+
+	/**
+	 * Returns the value to be assigned.
+	 */
+	public int getValue() {
+		return value;
+	}
+
+	@Override
+	public <R,D> R accept(TreeVisitor<R,D> v, D data) {
+		if (v instanceof ExtendedTreeVisitor) {
+			return ((ExtendedTreeVisitor<R,D>)v).visitAssign(this, data);
+		} else {
+			return v.visitOther(this, data);
+		}
+	}
 }

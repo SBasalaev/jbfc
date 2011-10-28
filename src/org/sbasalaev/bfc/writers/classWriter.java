@@ -32,7 +32,7 @@ import org.objectweb.asm.MethodVisitor;
  * Writes BF tree to Java class file.
  * @author Sergey Basalaev
  */
-public class classWriter implements TreeVisitor<Void, Void> {
+public class classWriter implements ExtendedTreeVisitor<Void, Void> {
 
 	private Options options;
 	private MethodVisitor main;
@@ -162,6 +162,20 @@ public class classWriter implements TreeVisitor<Void, Void> {
 		main.visitJumpInsn(GOTO, loopStart);
 		main.visitLabel(loopEnd);
 		return null;
+	}
+	
+	public Void visitAssign(AssignTree tree, Void data) {
+		if (options.needDebugInfo()) markLine(tree);
+		main.visitVarInsn(ALOAD, varArray);
+		main.visitVarInsn(ILOAD, varPosition);
+		visitIntConst(tree.getValue());
+		main.visitInsn(I2B);
+		main.visitInsn(BASTORE);
+		return null;
+	}
+	
+	public Void visitOther(Tree tree, Void data) {
+		throw new RuntimeException("Unknown tree type: "+tree.getClass());
 	}
 
 	private void visitIntConst(int i) {

@@ -29,7 +29,7 @@ import java.io.PrintStream;
  * 
  * @author Sergey Basalaev
  */
-public class javaWriter implements TreeVisitor<Void, Integer> {
+public class javaWriter implements ExtendedTreeVisitor<Void, Integer> {
 
 	private Options options;
 	private PrintStream output;
@@ -126,6 +126,17 @@ public class javaWriter implements TreeVisitor<Void, Integer> {
 		indent(level);
 		output.println("System.out.write(array[position]);");
 		return null;
+	}
+
+	public Void visitAssign(AssignTree tree, Integer level) {
+		if (options.needDebugInfo()) addLineComment(tree, level);
+		indent(level);
+		output.println("array[position] = (byte)"+tree.getValue()+';');
+		return null;
+	}
+
+	public Void visitOther(Tree tree, Integer level) {
+		throw new RuntimeException("Unknown tree type: "+tree.getClass());
 	}
 
 	private void indent(int level) {

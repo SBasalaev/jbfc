@@ -28,7 +28,7 @@ import org.sbasalaev.bfc.tree.*;
  *
  * @author Sergey Basalaev
  */
-public class SizeCalculator implements TreeVisitor<Integer, SizeBounds> {
+public class SizeCalculator implements ExtendedTreeVisitor<Integer, SizeBounds> {
 
 	private Options options;
 
@@ -62,6 +62,18 @@ public class SizeCalculator implements TreeVisitor<Integer, SizeBounds> {
 			options.warn(tree.getSourcePosition(), "Warning: Reading value out of array bounds");
 		data.updateMax();
 		return null;
+	}
+
+	public Integer visitAssign(AssignTree tree, SizeBounds data) {
+		if (data.currentIndex < 0 || data.currentIndex >= options.getRange())
+			options.warn(tree.getSourcePosition(), "Warning: Writing value out of array bounds");
+		data.updateMax();
+		return null;
+	}
+
+	public Integer visitOther(Tree tree, SizeBounds data) {
+		//cannot process unknown tree
+		throw new SizeEstimateException();
 	}
 
 	public Integer visitLoop(LoopTree tree, SizeBounds data) {

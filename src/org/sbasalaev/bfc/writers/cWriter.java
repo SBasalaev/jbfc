@@ -28,7 +28,7 @@ import java.io.PrintStream;
  * Writer to C code.
  * @author Sergey Basalaev
  */
-public class cWriter implements TreeVisitor<Void, Integer> {
+public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 
 
 	private Options options;
@@ -125,6 +125,17 @@ public class cWriter implements TreeVisitor<Void, Integer> {
 		indent(level);
 		output.println("putchar(array[position]);");
 		return null;
+	}
+
+	public Void visitAssign(AssignTree tree, Integer level) {
+		if (options.needDebugInfo()) addLineComment(tree, level);
+		indent(level);
+		output.println("array[position] = "+tree.getValue()+';');
+		return null;
+	}
+
+	public Void visitOther(Tree tree, Integer level) {
+		throw new RuntimeException("Unknown tree type: "+tree.getClass());
 	}
 
 	private void indent(int level) {

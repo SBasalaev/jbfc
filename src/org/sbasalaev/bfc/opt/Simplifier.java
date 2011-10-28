@@ -50,6 +50,10 @@ public class Simplifier implements TreeVisitor<Void, Void> {
 	public Void visitPutChar(PutCharTree tree, Void data) {
 		return null;
 	}
+	
+	public Void visitOther(Tree tree, Void data) {
+		return null;
+	}
 
 	public Void visitLoop(LoopTree tree, Void data) {
 		visitChildren(tree.getChildren());
