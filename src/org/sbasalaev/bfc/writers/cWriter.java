@@ -57,7 +57,7 @@ public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 		if (options.needDebugInfo()) {
 			output.println("/* Generated from \"" + source + "\" */");
 		}
-		output.println();
+		output.println("#include <string.h>");
 		output.println("#include <stdio.h>");
 		output.println();
 		output.print("#define ARRAY_SIZE   ");
@@ -65,6 +65,7 @@ public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 		output.println();
 		output.println("int main(int argc, char* argv[]) {");
 		output.println("\tchar array[ARRAY_SIZE];");
+		output.println("\tbzero(array, ARRAY_SIZE * sizeof(char));");
 		output.println("\tint position = 0;");
 		output.println("\tchar ch;");
 		for (Tree t : tree.getChildren()) {
