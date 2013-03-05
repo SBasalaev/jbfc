@@ -12,6 +12,7 @@
 			srcdir="src"
 			destdir="build"
 			includeantruntime="false"
+			debug="true"
 			classpath="${jbfc.classpath}"
 		/>
 	</target>

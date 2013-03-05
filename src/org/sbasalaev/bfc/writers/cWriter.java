@@ -31,6 +31,7 @@ public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 
 	private Options options;
 	private PrintStream output;
+	private String source;
 	private int lastline = 0;
 
 	public cWriter() { }
@@ -41,8 +42,9 @@ public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 
 	public Void visitUnit(UnitTree tree) {
 		String name = options.getOutputName();
+		source = tree.getSource();
 		if (name == null) {
-			name = tree.getSource();
+			name = source;
 			int dot = name.lastIndexOf('.');
 			if (dot > 0) name = name.substring(0, dot);
 		}
@@ -53,7 +55,7 @@ public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 			//cry like a baby
 		}
 		if (options.needDebugInfo()) {
-			output.println("/* Generated from \""+tree.getSource()+"\" */");
+			output.println("/* Generated from \"" + source + "\" */");
 		}
 		output.println();
 		output.println("#include <stdio.h>");
@@ -76,7 +78,7 @@ public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 	}
 
 	public Void visitLoop(LoopTree tree, Integer level) {
-		if (options.needDebugInfo()) addLineComment(tree, level);
+		if (options.needDebugInfo()) addLine(tree, level);
 		indent(level);
 		output.println("while (array[position]) {");
 		for (Tree t : tree.getChildren()) {
@@ -88,7 +90,7 @@ public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 	}
 
 	public Void visitInc(IncTree tree, Integer level) {
-		if (options.needDebugInfo()) addLineComment(tree, level);
+		if (options.needDebugInfo()) addLine(tree, level);
 		indent(level);
 		if (tree.getIncrement() > 0) {
 			output.println("array[position] += "+tree.getIncrement()+';');
@@ -99,7 +101,7 @@ public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 	}
 
 	public Void visitMove(MoveTree tree, Integer level) {
-		if (options.needDebugInfo()) addLineComment(tree, level);
+		if (options.needDebugInfo()) addLine(tree, level);
 		indent(level);
 		if (tree.getOffset() > 0) {
 			output.println("position += "+tree.getOffset()+';');
@@ -110,7 +112,7 @@ public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 	}
 
 	public Void visitGetChar(GetCharTree tree, Integer level) {
-		if (options.needDebugInfo()) addLineComment(tree, level);
+		if (options.needDebugInfo()) addLine(tree, level);
 		indent(level);
 		output.println("ch = getchar();");
 		indent(level);
@@ -119,14 +121,14 @@ public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 	}
 
 	public Void visitPutChar(PutCharTree tree, Integer level) {
-		if (options.needDebugInfo()) addLineComment(tree, level);
+		if (options.needDebugInfo()) addLine(tree, level);
 		indent(level);
 		output.println("putchar(array[position]);");
 		return null;
 	}
 
 	public Void visitAssign(AssignTree tree, Integer level) {
-		if (options.needDebugInfo()) addLineComment(tree, level);
+		if (options.needDebugInfo()) addLine(tree, level);
 		indent(level);
 		output.println("array[position] = "+tree.getValue()+';');
 		return null;
@@ -143,11 +145,11 @@ public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 		}
 	}
 
-	private void addLineComment(Tree tree, int level) {
+	private void addLine(Tree tree, int level) {
 		if (lastline < tree.getSourcePosition().lineNumber()) {
 			lastline = tree.getSourcePosition().lineNumber();
 			indent(level);
-			output.println("/* line "+lastline+" */");
+			output.println("#line " + lastline + " \"" + source + '"');
 		}
 	}
 }
