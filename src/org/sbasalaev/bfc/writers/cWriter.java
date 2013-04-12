@@ -63,6 +63,7 @@ public class cWriter implements ExtendedTreeVisitor<Void, Integer> {
 		output.print("#define ARRAY_SIZE   ");
 		output.println(options.getRange());
 		output.println();
+		if (options.needDebugInfo()) output.println("#line 1 " + source);
 		output.println("int main(int argc, char* argv[]) {");
 		output.println("\tchar array[ARRAY_SIZE];");
 		output.println("\tbzero(array, ARRAY_SIZE * sizeof(char));");
