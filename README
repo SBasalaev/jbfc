@@ -24,7 +24,7 @@ Available targets:
  -t java                         Java source
  -t c                            C source
 
-Available optimizations (all turned all by default):
+Available optimizations (all turned on by default):
  * Reduces sequences of >>><< and +++-- to single shift/increment
  * Reduces [+] and [-] to zero assignment
  * Tries to calculate needed array size reducing memory consuming
